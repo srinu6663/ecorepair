@@ -1,0 +1,14 @@
+services:
+  - type: static_site
+    name: ecorepair
+    root: .
+    env: node
+    buildCommand: npm install --legacy-peer-deps && npm run build
+    publishPath: dist
+    pullRequestPreviewsEnabled: true
+    autoDeploy: true
+    envVars:
+      - key: VITE_SUPABASE_URL
+        value: "<set-in-dashboard>"
+      - key: VITE_SUPABASE_ANON_KEY
+        value: "<set-in-dashboard>"
