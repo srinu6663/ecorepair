@@ -1,10 +1,10 @@
 services:
-  - type: static_site
+  - type: static
     name: ecorepair
     root: .
-    env: node
+    env: static
     buildCommand: npm install --legacy-peer-deps && npm run build
-    publishPath: dist
+    staticPublishPath: dist
     pullRequestPreviewsEnabled: true
     autoDeploy: true
     envVars:
