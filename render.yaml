@@ -2,13 +2,9 @@ services:
   - type: web
     name: ecorepair
     root: .
-    env: static
+    env: node
     buildCommand: npm install --legacy-peer-deps && npm run build
-    staticPublishPath: dist
-    routes:
-      - type: rewrite
-        source: "/*"
-        destination: "/index.html"
+    startCommand: npm run preview -- --host --port $PORT
     pullRequestPreviewsEnabled: true
     autoDeploy: true
     envVars:
