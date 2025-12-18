@@ -1,0 +1,196 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Eco-friendly green palette */
+    --background: 120 20% 98%;
+    --foreground: 150 30% 12%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 150 30% 12%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 150 30% 12%;
+
+    /* Primary - Fresh green */
+    --primary: 152 60% 36%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Secondary - Soft teal */
+    --secondary: 168 45% 92%;
+    --secondary-foreground: 168 50% 25%;
+
+    --muted: 120 15% 95%;
+    --muted-foreground: 150 10% 45%;
+
+    /* Accent - Warm teal */
+    --accent: 168 55% 45%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 150 15% 88%;
+    --input: 150 15% 88%;
+    --ring: 152 60% 36%;
+
+    --radius: 0.75rem;
+
+    /* Custom tokens */
+    --success: 152 70% 40%;
+    --success-foreground: 0 0% 100%;
+    
+    --hero-gradient: linear-gradient(135deg, hsl(152 60% 36%) 0%, hsl(168 55% 45%) 100%);
+    --card-shadow: 0 4px 20px -4px hsl(150 30% 12% / 0.08);
+    --card-shadow-hover: 0 12px 32px -8px hsl(150 30% 12% / 0.15);
+    
+    /* Fonts */
+    --font-heading: 'Outfit', sans-serif;
+    --font-body: 'Inter', sans-serif;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 160 25% 8%;
+    --foreground: 120 15% 95%;
+
+    --card: 160 20% 12%;
+    --card-foreground: 120 15% 95%;
+
+    --popover: 160 20% 12%;
+    --popover-foreground: 120 15% 95%;
+
+    --primary: 152 55% 50%;
+    --primary-foreground: 160 25% 8%;
+
+    --secondary: 160 20% 18%;
+    --secondary-foreground: 152 55% 70%;
+
+    --muted: 160 15% 18%;
+    --muted-foreground: 150 10% 60%;
+
+    --accent: 168 50% 50%;
+    --accent-foreground: 160 25% 8%;
+
+    --destructive: 0 62% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 160 15% 22%;
+    --input: 160 15% 22%;
+    --ring: 152 55% 50%;
+
+    --success: 152 60% 50%;
+    --success-foreground: 160 25% 8%;
+    
+    --hero-gradient: linear-gradient(135deg, hsl(152 55% 40%) 0%, hsl(168 50% 40%) 100%);
+    --card-shadow: 0 4px 20px -4px hsl(0 0% 0% / 0.3);
+    --card-shadow-hover: 0 12px 32px -8px hsl(0 0% 0% / 0.4);
+
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+  }
+}
+
+@layer utilities {
+  .font-heading {
+    font-family: var(--font-heading);
+  }
+  
+  .font-body {
+    font-family: var(--font-body);
+  }
+
+  .text-gradient {
+    background: var(--hero-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .bg-hero-gradient {
+    background: var(--hero-gradient);
+  }
+
+  .card-shadow {
+    box-shadow: var(--card-shadow);
+  }
+
+  .card-shadow-hover {
+    box-shadow: var(--card-shadow-hover);
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.6s ease-out forwards;
+  }
+
+  .animate-fade-in-up {
+    animation: fadeInUp 0.6s ease-out forwards;
+  }
+
+  .animate-scale-in {
+    animation: scaleIn 0.5s ease-out forwards;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
