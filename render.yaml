@@ -3,8 +3,10 @@ services:
     name: ecorepair
     rootDir: .
     env: node
-    buildCommand: npm install --legacy-peer-deps && npm run build
+    installCommand: npm install --legacy-peer-deps
+    buildCommand: npm run build
     startCommand: npm run preview -- --host --port $PORT
+    healthCheckPath: /
     pullRequestPreviewsEnabled: true
     autoDeploy: true
     envVars:
