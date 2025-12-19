@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu, Leaf, LogIn, LogOut, User } from "lucide-react";
+import { Menu, LogIn, LogOut, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "@/hooks/use-toast";
@@ -27,12 +27,11 @@ export function Navbar() {
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between">
         <Link to="/" className="flex items-center gap-2 group">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-hero-gradient text-primary-foreground transition-transform group-hover:scale-105">
-            <Leaf className="h-5 w-5" />
-          </div>
-          <span className="font-heading text-xl font-bold text-foreground">
-            EcoRepair
-          </span>
+          <img
+            src="/icon.png"
+            alt="EcoRepair logo"
+            className="h-32 w-32 rounded-lg transition-transform group-hover:scale-110"
+          />
         </Link>
 
         {/* Desktop Navigation */}
