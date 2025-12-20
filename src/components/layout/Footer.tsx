@@ -91,10 +91,16 @@ export function Footer() {
         </div>
 
         <div className="border-t mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} RepairFirst. All rights reserved.
-          </p>
-          <div className="flex gap-6 text-sm">
+          <div className="flex flex-col items-center md:items-start gap-1 text-sm text-muted-foreground">
+            <p className="font-medium text-foreground">
+              © {new Date().getFullYear()} RepairFirst. All rights reserved.
+            </p>
+            <p className="text-xs md:text-sm text-muted-foreground/80">
+              <span className="font-semibold text-primary">Developed</span> by Samith &nbsp;•&nbsp;
+              <span className="font-semibold text-primary">Designed</span> by Srinivas
+            </p>
+          </div>
+          <div className="flex flex-wrap justify-center md:justify-end gap-4 md:gap-6 text-sm">
             <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
               Privacy Policy
             </a>

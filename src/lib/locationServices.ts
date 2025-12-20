@@ -10,6 +10,31 @@ export interface NearbyService {
   phone?: string;
 }
 
+// Simple in-memory cache so repeated searches for the same area
+// don't keep hammering the Overpass API from a single client.
+const CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes
+const searchCache = new Map<
+  string,
+  {
+    timestamp: number;
+    data: NearbyService[];
+  }
+>();
+
+function buildCacheKey(
+  lat: number,
+  lon: number,
+  category: string | undefined,
+  query: string | undefined,
+  radiusKm: number
+): string {
+  const keyLat = lat.toFixed(3);
+  const keyLon = lon.toFixed(3);
+  const cat = category || "all";
+  const q = (query || "").trim().toLowerCase();
+  return `${keyLat}:${keyLon}:${cat}:${q}:${radiusKm}`;
+}
+
 // Calculate distance between two coordinates in km
 function calculateDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
   const R = 6371; // Earth's radius in km
@@ -36,18 +61,26 @@ export async function searchNearbyRepairServices(
   lat: number,
   lon: number,
   category?: string,
-  query?: string
+  query?: string,
+  radiusKm: number = 20
 ): Promise<NearbyService[]> {
   try {
+    const cacheKey = buildCacheKey(lat, lon, category, query, radiusKm);
+    const cached = searchCache.get(cacheKey);
+    if (cached && Date.now() - cached.timestamp < CACHE_TTL_MS) {
+      return cached.data;
+    }
     // Search for repair-related amenities using Overpass API
     // Use 25 km radius
-    const searchRadius = 25000; // 25km radius
+    const searchRadius = Math.max(1000, Math.min(radiusKm * 1000, 40000)); // clamp between 1km and 40km
     
     // Build query for different repair service types
     const repairTypes = [
       'shop=electronics',
       'shop=mobile_phone',
       'shop=computer',
+      'shop=car_repair',
+      'amenity=car_repair',
       'craft=electronics_repair',
       'craft=tailor',
       'craft=shoemaker',
@@ -68,7 +101,7 @@ export async function searchNearbyRepairServices(
     }).join('');
     
     const overpassQuery = `
-      [out:json][timeout:25];
+      [out:json][timeout:40];
       (
         ${typeQueries}
       );
@@ -204,8 +237,11 @@ export async function searchNearbyRepairServices(
     // Filter to repair/service centers only
     const repairFiltered = rawServices.filter(looksLikeRepair) as NearbyService[];
 
-    // Continue with category and query filtering on repairFiltered
-    let filtered = repairFiltered;
+    // If strict filter finds nothing, fall back to all raw services
+    const baseList = (repairFiltered.length > 0 ? repairFiltered : rawServices) as NearbyService[];
+
+    // Continue with category and query filtering on the base list
+    let filtered = baseList;
 
     // Apply category filter if provided (map app categories to OSM tag values)
     const categoryMap: Record<string, string[]> = {
@@ -246,6 +282,11 @@ export async function searchNearbyRepairServices(
     const services = filtered
       .sort((a, b) => a.distanceKm - b.distanceKm)
       .slice(0, 20); // Limit to 20 results
+
+    searchCache.set(cacheKey, {
+      timestamp: Date.now(),
+      data: services,
+    });
 
     return services;
   } catch (error) {

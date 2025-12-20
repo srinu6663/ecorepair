@@ -63,6 +63,11 @@ const ServicesPage = () => {
   };
 
   const handleUseMyLocation = () => {
+    toast({
+      title: "Allow Location Access",
+      description:
+        "When your browser shows the location popup, click Allow so we can find nearby repair centers.",
+    });
     geolocation.getLocation();
   };
 
